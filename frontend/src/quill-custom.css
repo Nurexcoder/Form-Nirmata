@@ -1,0 +1,41 @@
+.quill {
+}
+.ql-toolbar {
+}
+.ql-container {
+}
+.ql-editor {
+}
+.custom-text-editor {
+  border-radius: 4px;
+  /* padding: 10px; */
+  width: 100%;
+}
+
+.toolbar {
+  margin: 5px 0;
+  transition: 0.3s ease;
+}
+
+.toolbar button {
+  margin-right: 5px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background: transparent;
+  /* border: 1px solid #ccc; */
+  border-radius: 50%;
+  font-weight: bolder;
+  color: grey;
+  font-size: 1.1rem;
+}
+
+.toolbar button.active {
+  background: rgba(99, 220, 226, 0.74);
+}
+
+.editor {
+  /* min-height: 150px; */
+  /* border: 1px solid #ccc; */
+  padding: 5px;
+}
