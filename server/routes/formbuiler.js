@@ -12,6 +12,14 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+router.get("/:id", async (req, res) => {
+  try {
+    const forms = await Form.findById(req.params.id );
+    res.json(forms);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 // Create a new form
 router.post("/", async (req, res) => {
@@ -52,3 +60,4 @@ router.delete("/:id", async (req, res) => {
 });
 
 module.exports = router;
+

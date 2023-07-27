@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiSpreadsheet } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
@@ -6,15 +6,8 @@ import "react-quill/dist/quill.snow.css";
 import "../quill-custom.css";
 import CustomTextEditor from "../components/formviewer/CustomEditor";
 import InputSelector from "../components/formviewer/InputSelector";
-
+import { useParams } from "react-router-dom";
 const Formviewer = () => {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm();
   const [activeDiv, setActiveDiv] = useState(-1);
   const [formSchema, setFormSchema] = useState({
     name: { value: "Untitled", placeholder: "" },
@@ -32,93 +25,62 @@ const Formviewer = () => {
         ],
 
         isDeletable: false,
+        answer: "",
       },
-     
     ],
   });
-  const handleNameTitleChange = (innerHtlml, type) => {
-    setFormSchema({ ...formSchema, [type]: { value: innerHtlml } });
-  };
-  const handleTypeChange = (value, index) => {
-    console.log(value);
-    setFormSchema((prevFormSchema) => {
-      const updatedContent = [...prevFormSchema.contents];
-      updatedContent[index] = { ...updatedContent[index], type: value };
-      return { ...prevFormSchema, contents: updatedContent };
-    });
-  };
-  const handleAddContentAtIndex = (index, newContent) => {
-    const updatedContent = [...formSchema.contents];
-    updatedContent.splice(index, 0, newContent);
-    setFormSchema({
-      ...formSchema,
-      contents: updatedContent,
-    });
-    // setActiveDiv((prevActiveDiv) => prevActiveDiv + 2);
-    console.log(index + 1);
-  };
-  const handleRemoveField = (index) => {
-    const updatedContent = [...formSchema.contents];
-    updatedContent.splice(index, 1);
-    setFormSchema({ ...formSchema, contents: updatedContent });
-  };
-  const handleContentNameChange = (index, newName) => {
-    const updatedContent = [...formSchema.contents];
-    updatedContent[index].name = newName;
-
-    setFormSchema({
-      ...formSchema,
-      contents: updatedContent,
-    });
-  };
-  const handleAddNewOption = (contentIndex) => {
-    const updatedContent = [...formSchema.contents];
-    console.log(contentIndex);
-
-    const updatedOptions = [...formSchema.contents[contentIndex].options];
-
-    updatedOptions.push({
-      value: "Option " + updatedOptions.length,
-      label: "Option " + updatedOptions.length,
-    });
-
-    updatedContent[contentIndex].options = updatedOptions;
-
-    setFormSchema({
-      ...formSchema,
-      contents: updatedContent,
-    });
-  };
-  const handleOptionChange = (
-    contentIndex,
-    optionIndex,
-    newValue,
-    newLabel
-  ) => {
-    const updatedContent = [...formSchema.contents];
-    const updatedOptions = [...formSchema.contents[contentIndex].options];
-
-    updatedOptions[optionIndex].value = newValue;
-    updatedOptions[optionIndex].label = newLabel;
-
-    updatedContent[contentIndex].options = updatedOptions;
-
-    setFormSchema({
-      ...formSchema,
-      contents: updatedContent,
-    });
-  };
-  console.log(formSchema, activeDiv);
-
-  const handleSchemaSubmit = async () => {
+  const { id } = useParams();
+  const handleGetSchema = async () => {
     // e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/formviewer", {
-      method: "POST",
-      body: JSON.stringify(formSchema),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const res = await fetch(
+      "http://localhost:5000/api/formbuilder/"+id,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    setFormSchema(data);
+  };
+
+  useEffect(() => {
+    handleGetSchema();
+  }, []);
+
+  const handleAnswerChange = (index, newAnswer) => {
+    setFormSchema((prevSchema) => {
+      const updatedContents = [...prevSchema.contents];
+      updatedContents[index] = { ...updatedContents[index], answer: newAnswer };
+      return { ...prevSchema, contents: updatedContents };
     });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      name: formSchema.name,
+      description: formSchema.description,
+      contents: formSchema.contents.map((item) => {
+        return {
+          name: item.name,
+          type: item.type,
+          answer: item.answer,
+        };
+      }),
+    };
+    console.log(data);
+    const res = await fetch(
+      "http://localhost:5000/api/response/" + formSchema._id,
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   };
 
   return (
@@ -128,44 +90,42 @@ const Formviewer = () => {
           <BiSpreadsheet color="#1a8cd8" fontSize={"2rem"} />
           <h1 className="text-2xl font-bold text-gray-800 m-0">Formviewer</h1>
         </div>
-        
       </div>
-      <div className="overflow-y-auto h-[calc(100vh-68px)]">
+      <form
+        className="overflow-y-auto h-[calc(100vh-68px)]"
+        onSubmit={handleFormSubmit}
+      >
         <div className="w-[80%]  max-w-2xl mt-2 mx-auto bg-white p-8 rounded-md flex flex-col items-center justify-center gap-2">
-          <CustomTextEditor
-            name={formSchema.name.value}
-            handleNameTitleChange={handleNameTitleChange}
-            variant={"main"}
-          />
-          <CustomTextEditor
-            name={formSchema.description.value}
-            multiline={true}
-            handleNameTitleChange={handleNameTitleChange}
-          />
+          <CustomTextEditor name={formSchema.name} variant={"main"} />
+          <CustomTextEditor name={formSchema.description} multiline={true} />
         </div>
         <div className="w-[80%]  max-w-2xl  mx-auto my-3  flex flex-col gap-4">
-          {formSchema.contents.map((item, index) => {
+          {formSchema?.contents?.map((item, index) => {
             return (
               <InputSelector
                 key={index}
                 index={index}
                 type={item?.type}
-                handleTypeChange={handleTypeChange}
                 options={item?.options}
                 active={index === activeDiv}
                 activeDiv={activeDiv}
                 setActiveDiv={setActiveDiv}
-                handleRemoveField={handleRemoveField}
-                handleAddContentAtIndex={handleAddContentAtIndex}
                 currentSchema={item}
-                handleContentNameChange={handleContentNameChange}
-                handleAddNewOption={handleAddNewOption}
-                handleOptionChange={handleOptionChange}
+                answer={item?.answer}
+                handleAnswerChange={handleAnswerChange}
               />
             );
           })}
+          <div className="">
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Submit
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

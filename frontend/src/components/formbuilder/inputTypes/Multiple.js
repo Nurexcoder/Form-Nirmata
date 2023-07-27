@@ -3,7 +3,13 @@ import CustomTextEditor from "../CustomEditor";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-const Multiple = ({ options, handleAddNewOption, schemaIndex, active,handleOptionChange }) => {
+const Multiple = ({
+  options,
+  handleAddNewOption,
+  schemaIndex,
+  active,
+  handleOptionChange,
+}) => {
   return (
     <div>
       {options?.map((option, i) => (
@@ -17,11 +23,18 @@ const Multiple = ({ options, handleAddNewOption, schemaIndex, active,handleOptio
             // onChange={onChange}
             className="appearance-none w-4 h-4 mt-[10px] border border-gray-300 rounded-full checked:bg-blue-600 checked:border-transparent focus:outline-none"
           />
-          <CustomTextEditor handleOptionChange={handleOptionChange} optionIndex={i} index={schemaIndex} />
+          <CustomTextEditor
+            handleOptionChange={handleOptionChange}
+            optionIndex={i}
+            index={schemaIndex}
+            currentValue={option?.value}
+          />
           {i ? (
             <button
               // onClick={onClick}
-              className={` ${active ? "flex" : "hidden"} text-red-500 hover:text-red-700 p-1 focus:outline-none`}
+              className={` ${
+                active ? "flex" : "hidden"
+              } text-red-500 hover:text-red-700 p-1 focus:outline-none`}
             >
               <RiDeleteBinLine size={24} />
             </button>

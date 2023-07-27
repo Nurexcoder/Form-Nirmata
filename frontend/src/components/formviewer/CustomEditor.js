@@ -11,6 +11,7 @@ const CustomTextViewer = ({
   handleOptionChange,
   optionIndex,
   divRef,
+  onChange
 }) => {
   const [isBold, setBold] = useState(false);
   const [isItalic, setItalic] = useState(false);
@@ -18,9 +19,8 @@ const CustomTextViewer = ({
   const [fontColor, setFontColor] = useState("#000000");
   const [content, setContent] = useState("");
 
-  console.log(name)
   return (
-    <div ref={divRef} className="custom-text-editor flex-3  group/editor">
+    <div ref={divRef} className="custom-text-editor flex-3  group/editor" >
       {multiline ? (
         <div
           className={`editor ${

@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const formRoutes = require("./routes/formbuiler");
+const responseRoutes = require("./routes/response");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/formbuilder", formRoutes);
+app.use("/api/response", responseRoutes);
 
 // Start the server
 app.listen(PORT, async () => {

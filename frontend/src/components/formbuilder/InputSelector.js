@@ -22,6 +22,7 @@ const InputSelector = ({
   handleAddNewOption,
   handleOptionChange,
   activeDiv,
+  handleToggleRequired,
 }) => {
   const divRef = useRef(null);
 
@@ -45,6 +46,8 @@ const InputSelector = ({
             handleContentNameChange={handleContentNameChange}
             index={index}
             divRef={divRef}
+            currentValue={currentSchema}
+            key={index}
           />
           <SelectBox
             handleTypeChange={handleTypeChange}
@@ -72,7 +75,12 @@ const InputSelector = ({
         }  group-focus-within/inputselector:h-max transition `}
       >
         <div className="flex gap-x-2 items-center">
-          <Switch value={"Required"} />
+          <Switch
+            handleToggleRequired={handleToggleRequired}
+            checked={currentSchema?.required}
+            index={index}
+            value={"Required"}
+          />
           <span className="text-xl font-normal">Required</span>
         </div>
         {index ? (

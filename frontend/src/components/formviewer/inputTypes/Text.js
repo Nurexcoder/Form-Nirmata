@@ -1,10 +1,15 @@
-import React from 'react'
-import CustomTextEditor from '../CustomEditor'
+import React from "react";
+import CustomTextEditor from "../CustomEditor";
 
-const Text = () => {
+const Text = ({ answer, handleAnswerChange,index }) => {
   return (
-    <input placeholder='eg : some text'  className='w-[80%] p-2 border-b'/>
-  )
-}
+    <input
+      placeholder="eg : some text"
+      value={answer}
+      onChange={(e) => handleAnswerChange(index, e.target.value)}
+      className="w-[80%] p-2 border-b"
+    />
+  );
+};
 
-export default Text
+export default Text;

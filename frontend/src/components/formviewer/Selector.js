@@ -13,20 +13,56 @@ const Selector = ({
   index,
   active,
   handleOptionChange,
-  ref
+  ref,
+  handleAnswerChange,
+  answer,
 }) => {
-  console.log(type);
   switch (type) {
     case "text":
-      return <Text key={type}  />;
+      return (
+        <Text
+          key={type}
+          handleAnswerChange={handleAnswerChange}
+          answer={answer}
+          index={index}
+        />
+      );
     case "number":
-      return <Number key={type} />;
+      return (
+        <Number
+          key={type}
+          handleAnswerChange={handleAnswerChange}
+          answer={answer}
+          index={index}
+        />
+      );
     case "textarea":
-      return <TextArea key={type} />;
+      return (
+        <TextArea
+          key={type}
+          handleAnswerChange={handleAnswerChange}
+          answer={answer}
+          index={index}
+        />
+      );
     case "date":
-      return <DatePickerComponent key={type} />;
+      return (
+        <DatePickerComponent
+          key={type}
+          handleAnswerChange={handleAnswerChange}
+          answer={answer}
+          index={index}
+        />
+      );
     case "time":
-      return <Time key={type} />;
+      return (
+        <Time
+          key={type}
+          handleAnswerChange={handleAnswerChange}
+          answer={answer}
+          index={index}
+        />
+      );
     case "multiple":
       return (
         <Multiple
@@ -36,6 +72,8 @@ const Selector = ({
           schemaIndex={index}
           active={active}
           handleOptionChange={handleOptionChange}
+          handleAnswerChange={handleAnswerChange}
+          answer={answer}
         />
       );
     default:

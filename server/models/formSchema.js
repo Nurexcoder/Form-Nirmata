@@ -1,4 +1,3 @@
-// models/form.js
 const mongoose = require("mongoose");
 
 const formSchema = new mongoose.Schema({
@@ -31,6 +30,14 @@ const formSchema = new mongoose.Schema({
           },
         },
       ],
+    },
+  ],
+  responses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Response",
+      select: false,
     },
   ],
 });

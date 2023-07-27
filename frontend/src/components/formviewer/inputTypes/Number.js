@@ -1,10 +1,16 @@
-import React from 'react'
-import CustomTextEditor from '../CustomEditor'
+import React from "react";
+import CustomTextEditor from "../CustomEditor";
 
-const Number = () => {
+const Number = ({ answer, handleAnswerChange, index }) => {
   return (
-    <input type='number' placeholder='Eg:1' disabled className='w-[80%] p-2 border-t-0 border-x-0 border-b border-black/30 '/>
-  )
-}
+    <input
+      type="number"
+      value={answer}
+      onChange={(e) => handleAnswerChange(index, e.target.value)}
+      placeholder="Eg:1"
+      className="w-[80%] p-2 border-t-0 border-x-0 border-b border-black/30 "
+    />
+  );
+};
 
-export default Number
+export default Number;

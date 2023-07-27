@@ -11,6 +11,7 @@ const CustomTextEditor = ({
   handleOptionChange,
   optionIndex,
   divRef,
+  currentValue,
 }) => {
   const [isBold, setBold] = useState(false);
   const [isItalic, setItalic] = useState(false);
@@ -43,11 +44,9 @@ const CustomTextEditor = ({
     setContent(event.target.innerHTML);
     if (name) {
       handleNameTitleChange(event.target.innerHTML, name);
-    }
-    else if (description) {
+    } else if (description) {
       handleNameTitleChange(event.target.innerHTML, description);
-    }
-    else if (index !== undefined) {
+    } else if (index !== undefined) {
       if (optionIndex !== undefined) {
         handleOptionChange(
           index,
@@ -82,7 +81,7 @@ const CustomTextEditor = ({
           style={{ color: fontColor }}
           onInput={handleEditorChange}
           dangerouslySetInnerHTML={{
-            __html: name?.value || description?.value,
+            __html: name?.value || description?.value || currentValue,
           }}
         />
       ) : (
@@ -101,7 +100,7 @@ const CustomTextEditor = ({
           style={{ color: fontColor }}
           onInput={handleEditorChange}
           dangerouslySetInnerHTML={{
-            __html: name?.value || description?.value,
+            __html: name?.value || description?.value || "Question",
           }}
         />
       )}

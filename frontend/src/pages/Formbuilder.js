@@ -26,14 +26,14 @@ const Formbuilder = () => {
         placeholder: "",
         options: [
           {
-            value: "",
-            label: "",
+            value: "Option 1",
+            label: "Option 1",
           },
         ],
 
         isDeletable: false,
+        required:false
       },
-     
     ],
   });
   const handleNameTitleChange = (innerHtlml, type) => {
@@ -61,6 +61,7 @@ const Formbuilder = () => {
     updatedContent.splice(index, 1);
     setFormSchema({ ...formSchema, contents: updatedContent });
   };
+
   const handleContentNameChange = (index, newName) => {
     const updatedContent = [...formSchema.contents];
     updatedContent[index].name = newName;
@@ -69,6 +70,12 @@ const Formbuilder = () => {
       ...formSchema,
       contents: updatedContent,
     });
+  };
+  const handleToggleRequired = (contentIndex) => {
+    const updatedContents = [...formSchema.contents];
+    updatedContents[contentIndex].required =
+      !updatedContents[contentIndex].required;
+    setFormSchema({ ...formSchema, contents: updatedContents });
   };
   const handleAddNewOption = (contentIndex) => {
     const updatedContent = [...formSchema.contents];
@@ -174,6 +181,7 @@ const Formbuilder = () => {
                 handleContentNameChange={handleContentNameChange}
                 handleAddNewOption={handleAddNewOption}
                 handleOptionChange={handleOptionChange}
+                handleToggleRequired={handleToggleRequired}
               />
             );
           })}

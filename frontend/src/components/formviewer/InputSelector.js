@@ -22,15 +22,16 @@ const InputSelector = ({
   handleAddNewOption,
   handleOptionChange,
   activeDiv,
+  handleAnswerChange,
+  answer
 }) => {
   const divRef = useRef(null);
-  console.log(currentSchema)
-  useEffect(() => {
-    if (activeDiv !== -1 && divRef.current) {
-      divRef.current.scrollIntoView({ behavior: "smooth" });
-      divRef.current.focus();
-    }
-  }, [divRef]);
+  // useEffect(() => {
+  //   if (activeDiv !== -1 && divRef.current) {
+  //     divRef.current.scrollIntoView({ behavior: "smooth" });
+  //     divRef.current.focus();
+  //   }
+  // }, [divRef]);
 
   // console.log(type);
   return (
@@ -56,6 +57,9 @@ const InputSelector = ({
           index={index}
           active={active}
           handleOptionChange={handleOptionChange}
+          handleAnswerChange={handleAnswerChange}
+          answer={answer}
+          
         />
       </div>
       
