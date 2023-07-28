@@ -5,7 +5,7 @@ import Formbuilder from "./pages/Formbuilder";
 import Formviewer from "./pages/Formviewer";
 import ResponseViewer from "./pages/ResponseViewer";
 import FormLists from "./pages/FormLists";
-import ThankYouPage from "./components/formviewer/ThankYouPage";
+import ThankYouPage from "./pages/ThankYouPage";
 
 function App() {
   return (

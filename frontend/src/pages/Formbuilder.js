@@ -52,9 +52,8 @@ const Formbuilder = () => {
   useEffect(() => {
     if (id) {
       getSchema();
-    }
-    else{
-      setLoading(false)
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -106,8 +105,8 @@ const Formbuilder = () => {
     const updatedOptions = [...formSchema.contents[contentIndex].options];
 
     updatedOptions.push({
-      value: "Option " + parseInt(updatedOptions.length+1),
-      label: "Option " + parseInt(updatedOptions.length+1),
+      value: "Option " + parseInt(updatedOptions.length + 1),
+      label: "Option " + parseInt(updatedOptions.length + 1),
     });
 
     updatedContent[contentIndex].options = updatedOptions;
@@ -164,7 +163,7 @@ const Formbuilder = () => {
     }
     navigate("/list");
   };
-  // if (id && loading) return <LoadingPage />;
+  if (id && loading&&!formSchema?._id) return <LoadingPage loading={loading} />;
 
   return (
     <div className="h-[100vh] overflow-y-hidden w-full bg-slate-300 flex   flex-col">
@@ -233,7 +232,7 @@ const Formbuilder = () => {
           })}
         </div>
       </div>
-      <LoadingPage loading={loading}/>
+      <LoadingPage loading={loading} />
     </div>
   );
 };

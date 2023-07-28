@@ -13,7 +13,7 @@ const Multiple = ({
   handleAnswerChange,
 }) => {
   return (
-    <fieldset>
+    <fieldset >
       {options?.map((option, i) => (
         <div
           onClick={() => handleAnswerChange(schemaIndex, option?.value)}

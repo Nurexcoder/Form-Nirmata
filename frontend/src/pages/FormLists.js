@@ -90,7 +90,7 @@ const FormLists = () => {
           {/* )} */}
         </div>
       </div>
-      <LoadingPage loading={loading} />
+      {/* <LoadingPage loading={loading} /> */}
     </div>
   );
 };
