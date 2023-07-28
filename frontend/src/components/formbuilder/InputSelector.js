@@ -76,7 +76,7 @@ const InputSelector = ({
           active ? "flex h-max" : "hidden"
         }  group-focus-within/inputselector:h-max transition `}
       >
-        <div className="block md:flex gap-x-2 items-center">
+        <div className="flex gap-x-2 items-center">
           <Switch
             handleToggleRequired={handleToggleRequired}
             isRequired={isRequired}
@@ -104,7 +104,10 @@ const InputSelector = ({
           onClick={() => handleAddContentAtIndex(index, currentSchema)}
         >
           <AiOutlinePlusCircle size={24} className="inline-block mr-2" />
+          <span className="hidden md:inline">
           Add Question
+          </span>
+            
         </button>
       </div>
     </div>
