@@ -104,7 +104,7 @@ const InputSelector = ({
           onClick={() => handleAddContentAtIndex(index, currentSchema)}
         >
           <AiOutlinePlusCircle size={24} className="inline-block mr-2" />
-          <span className="hidden md:inline">
+          <span className="hidden sm:inline">
           Add Question
           </span>
             
