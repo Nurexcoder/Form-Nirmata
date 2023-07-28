@@ -13,8 +13,11 @@ dotenv.config();
 app.use(cors());
 const initializeConfig = async () => {
   try {
+    console.log(process.env.DBKEY)
+    mongoose.set("strictQuery", true);
     await mongoose.connect(
-      process.env.DBKEY || "mongodb://127.0.0.1:27017/formbuilder"
+      process.env.DBKEY ,
+      { useNewUrlParser: true}
     );
     console.log("Connected to MongoDb");
   } catch (error) {
