@@ -42,29 +42,39 @@ const Formviewer = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      name: formSchema.name,
-      description: formSchema.description,
-      contents: formSchema.contents.map((item) => {
-        return {
+    try {
+      const contents = [];
+      formSchema.contents.map((item) => {
+        if (item.isRequired && !item.answer) {
+          throw new Error("Required field is missing");
+        }
+        contents.push({
           name: item.name,
           type: item.type,
           answer: item.answer,
-        };
-      }),
-    };
-    setLoading(true);
-    console.log(data);
-
-    const res = await fetch(prodURL + "/api/response/" + formSchema._id, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setLoading(false);
-    navigate("/success");
+        });
+      });
+      const data = {
+        name: formSchema.name,
+        description: formSchema.description,
+        contents: contents,
+      };
+      setLoading(true);
+      console.log(data);
+      const res = await fetch(prodURL + "/api/response/" + formSchema._id, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setLoading(false);
+      navigate("/success");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      alert("Required field is missing");
+    }
   };
   // if (!formSchema) return <LoadingPage loading={loading} />;
   return (

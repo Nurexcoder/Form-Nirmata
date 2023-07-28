@@ -48,6 +48,7 @@ const InputSelector = ({
             index={index}
             divRef={divRef}
             name={currentSchema.name}
+            isRequired={isRequired}
           />
           
         </div>

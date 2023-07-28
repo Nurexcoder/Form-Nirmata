@@ -11,7 +11,8 @@ const CustomTextViewer = ({
   handleOptionChange,
   optionIndex,
   divRef,
-  onChange
+  onChange,
+  isRequired
 }) => {
   const [isBold, setBold] = useState(false);
   const [isItalic, setItalic] = useState(false);
@@ -20,7 +21,7 @@ const CustomTextViewer = ({
   const [content, setContent] = useState("");
 
   return (
-    <div ref={divRef} className="custom-text-editor flex-3  group/editor" >
+    <div ref={divRef} className="custom-text-editor flex-3  group/editor">
       {multiline ? (
         <div
           className={`editor ${
@@ -32,7 +33,7 @@ const CustomTextViewer = ({
           }`}
           // contentEditable="true"
           dangerouslySetInnerHTML={{
-            __html: name ,
+            __html:  `${name} ${isRequired ? "*" : ""}`,
           }}
         />
       ) : (
@@ -47,7 +48,7 @@ const CustomTextViewer = ({
           }`}
           // contentEditable="true"
           dangerouslySetInnerHTML={{
-            __html: name ,
+            __html:  `${name} ${isRequired ? "<span class='text-red-500'>*</span>" : ""}`,
           }}
         />
       )}
