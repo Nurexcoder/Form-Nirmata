@@ -207,7 +207,7 @@ const Formbuilder = () => {
             description={true}
           />
         </div>
-        <div className="w-[80%]  max-w-2xl  mx-auto my-3  flex flex-col gap-4">
+        <div className="w-[95%]  max-w-2xl  mx-auto my-3  flex flex-col gap-4 min-w-max">
           {formSchema?.contents?.map((item, index) => {
             return (
               <InputSelector
