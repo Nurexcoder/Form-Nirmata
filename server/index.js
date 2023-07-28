@@ -7,11 +7,15 @@ const responseRoutes = require("./routes/response");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 5000;
+const dotenv = require("dotenv");
+dotenv.config();
 
 app.use(cors());
 const initializeConfig = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/formbuilder");
+    await mongoose.connect(
+      process.env.DBKEY || "mongodb://127.0.0.1:27017/formbuilder"
+    );
     console.log("Connected to MongoDb");
   } catch (error) {
     console.log(error);
