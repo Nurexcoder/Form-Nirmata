@@ -76,7 +76,7 @@ const InputSelector = ({
           active ? "flex h-max" : "hidden"
         }  group-focus-within/inputselector:h-max transition `}
       >
-        <div className="flex gap-x-2 items-center">
+        <div className="block md:flex gap-x-2 items-center">
           <Switch
             handleToggleRequired={handleToggleRequired}
             isRequired={isRequired}
