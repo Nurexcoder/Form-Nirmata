@@ -30,6 +30,10 @@ const formSchema = new mongoose.Schema({
           },
         },
       ],
+      isRequired: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
   responses: [

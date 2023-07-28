@@ -16,6 +16,7 @@ const Selector = ({
   ref,
   handleAnswerChange,
   answer,
+  isRequired,
 }) => {
   switch (type) {
     case "text":
@@ -25,6 +26,7 @@ const Selector = ({
           handleAnswerChange={handleAnswerChange}
           answer={answer}
           index={index}
+          isRequired={isRequired}
         />
       );
     case "number":
@@ -34,6 +36,7 @@ const Selector = ({
           handleAnswerChange={handleAnswerChange}
           answer={answer}
           index={index}
+          isRequired={isRequired}
         />
       );
     case "textarea":
@@ -43,6 +46,7 @@ const Selector = ({
           handleAnswerChange={handleAnswerChange}
           answer={answer}
           index={index}
+          isRequired={isRequired}
         />
       );
     case "date":
@@ -52,6 +56,7 @@ const Selector = ({
           handleAnswerChange={handleAnswerChange}
           answer={answer}
           index={index}
+          isRequired={isRequired}
         />
       );
     case "time":
@@ -61,6 +66,7 @@ const Selector = ({
           handleAnswerChange={handleAnswerChange}
           answer={answer}
           index={index}
+          isRequired={isRequired}
         />
       );
     case "multiple":
@@ -74,6 +80,7 @@ const Selector = ({
           handleOptionChange={handleOptionChange}
           handleAnswerChange={handleAnswerChange}
           answer={answer}
+          isRequired={isRequired}
         />
       );
     default:

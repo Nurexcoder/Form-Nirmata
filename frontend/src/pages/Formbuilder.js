@@ -38,6 +38,7 @@ const Formbuilder = () => {
         ],
         isDeletable: false,
         answer: "",
+        isRequired: false,
       },
     ],
   });
@@ -45,12 +46,15 @@ const Formbuilder = () => {
   const getSchema = async () => {
     const res = await fetch(prodURL + "/api/formbuilder/" + id);
     const data = await res.json();
-    setFormSchema(data);
     setLoading(false);
+    setFormSchema(data);
   };
   useEffect(() => {
     if (id) {
       getSchema();
+    }
+    else{
+      setLoading(false)
     }
   }, []);
 
@@ -91,8 +95,8 @@ const Formbuilder = () => {
   };
   const handleToggleRequired = (contentIndex) => {
     const updatedContents = [...formSchema.contents];
-    updatedContents[contentIndex].required =
-      !updatedContents[contentIndex].required;
+    updatedContents[contentIndex].isRequired =
+      !updatedContents[contentIndex].isRequired;
     setFormSchema({ ...formSchema, contents: updatedContents });
   };
   const handleAddNewOption = (contentIndex) => {
@@ -136,6 +140,7 @@ const Formbuilder = () => {
 
   const handleSchemaSubmit = async () => {
     // e.preventDefault();
+    setLoading(true);
     if (!id) {
       const res = await fetch(prodURL + "/api/formbuilder", {
         method: "POST",
@@ -144,6 +149,7 @@ const Formbuilder = () => {
           "Content-Type": "application/json",
         },
       });
+      setLoading(false);
       alert("Form created successfully!!");
     } else {
       const res = await fetch(prodURL + "/api/formbuilder/" + id, {
@@ -153,11 +159,12 @@ const Formbuilder = () => {
           "Content-Type": "application/json",
         },
       });
+      setLoading(false);
       alert("Form updated successfully!!");
     }
     navigate("/list");
   };
-  if (id && loading) return <LoadingPage />;
+  // if (id && loading) return <LoadingPage />;
 
   return (
     <div className="h-[100vh] overflow-y-hidden w-full bg-slate-300 flex   flex-col">
@@ -225,6 +232,7 @@ const Formbuilder = () => {
           })}
         </div>
       </div>
+      <LoadingPage loading={loading}/>
     </div>
   );
 };

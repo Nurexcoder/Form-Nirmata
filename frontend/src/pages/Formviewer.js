@@ -66,7 +66,7 @@ const Formviewer = () => {
     setLoading(false);
     navigate("/success");
   };
-  if (!formSchema) return <LoadingPage />;
+  // if (!formSchema) return <LoadingPage loading={loading} />;
   return (
     <div className="h-[100vh] overflow-y-hidden w-full bg-slate-300 flex   flex-col">
       <div className="flex justify-between items-center p-4 bg-white shadow-2xl h-[68px]">
@@ -80,8 +80,8 @@ const Formviewer = () => {
         onSubmit={handleFormSubmit}
       >
         <div className="w-[80%]  max-w-2xl mt-2 mx-auto bg-white p-8 rounded-md flex flex-col items-center justify-center gap-2">
-          <CustomTextEditor name={formSchema.name} variant={"main"} />
-          <CustomTextEditor name={formSchema.description} multiline={true} />
+          <CustomTextEditor name={formSchema?.name} variant={"main"} />
+          <CustomTextEditor name={formSchema?.description} multiline={true} />
         </div>
         <div className="w-[80%]  max-w-2xl  mx-auto my-3  flex flex-col gap-4">
           {formSchema?.contents?.map((item, index) => {
@@ -97,6 +97,7 @@ const Formviewer = () => {
                 currentSchema={item}
                 answer={item?.answer}
                 handleAnswerChange={handleAnswerChange}
+                isRequired={item?.isRequired}
               />
             );
           })}
@@ -110,6 +111,7 @@ const Formviewer = () => {
           </div>
         </div>
       </form>
+      <LoadingPage loading={loading} />
     </div>
   );
 };

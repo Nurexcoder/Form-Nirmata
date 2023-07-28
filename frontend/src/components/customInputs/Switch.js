@@ -6,7 +6,7 @@ const SwitchComponet = ({ value, handleToggleRequired, index,checked }) => {
   console.log(checked)
   return (
     <Switch
-      checked={enabled}
+      checked={checked}
       onChange={() => {
         handleToggleRequired(index);
         setEnabled(!enabled);

@@ -23,7 +23,8 @@ const InputSelector = ({
   handleOptionChange,
   activeDiv,
   handleAnswerChange,
-  answer
+  answer,
+  isRequired
 }) => {
   const divRef = useRef(null);
   // useEffect(() => {
@@ -59,6 +60,7 @@ const InputSelector = ({
           handleOptionChange={handleOptionChange}
           handleAnswerChange={handleAnswerChange}
           answer={answer}
+          isRequired={isRequired}
           
         />
       </div>

@@ -9,7 +9,7 @@ import { prodURL } from "../config";
 
 const FormLists = () => {
   const [loading, setLoading] = useState(true);
-  const [rowData, setRowData] = useState([]);
+  const [rowData, setRowData] = useState();
   const navigate = useNavigate();
   const handleDeleteForm = async (id) => {
     const res = await fetch(prodURL + "/api/formbuilder/" + id, {
@@ -51,7 +51,7 @@ const FormLists = () => {
   ]);
 
   const getFormData = async () => {
-    const res = await fetch(prodURL+"/api/formbuilder");
+    const res = await fetch(prodURL + "/api/formbuilder");
     const data = await res.json();
     setRowData(data);
     setLoading(false);
@@ -61,7 +61,6 @@ const FormLists = () => {
       getFormData();
     }
   }, [loading]);
-  //   if (loading) return <LoadingPage />;
 
   return (
     <div className="w-full h-[100vh] overflow-hidden ">
@@ -81,13 +80,17 @@ const FormLists = () => {
       <div className="h-[calc(100vh-68px)] overflow-y-hidden w-full p-4 bg-white-100 flex   flex-col">
         <h1 className="text-grey text-2xl my-4 font-bold">Forms</h1>
         <div className="ag-theme-alpine rounded-md h-full ">
+          {/* {!rowData ? (
+          ) : ( */}
           <AgGridReact
             rowData={rowData}
             columnDefs={columnDefs}
             rowHeight={45}
           />
+          {/* )} */}
         </div>
       </div>
+      <LoadingPage loading={loading} />
     </div>
   );
 };

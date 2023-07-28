@@ -14,7 +14,9 @@ export default (props) => {
   };
 
   const handleShare = async () => {
-    const url = prodURL + "/viewer/" + id;
+    const currentUrl = window.location.hostname;
+
+    const url =  "/viewer/" + id;
     console.log(url);
 
     try {
@@ -51,7 +53,7 @@ export default (props) => {
       >
         Delete
       </button>
-      <a href={prodURL + "/viewer/" + id} target="_blank">
+      <a href={"/viewer/" + id} target="_blank">
         <button className="bg-green-600 text-white px-4 py-1 leading-6  rounded-md">
           Preview
         </button>
