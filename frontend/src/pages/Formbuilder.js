@@ -227,6 +227,7 @@ const Formbuilder = () => {
                 handleOptionChange={handleOptionChange}
                 handleToggleRequired={handleToggleRequired}
                 name={item.name}
+                isRequired={item?.isRequired}
               />
             );
           })}

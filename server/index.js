@@ -16,7 +16,7 @@ const initializeConfig = async () => {
     console.log(process.env.DBKEY)
     mongoose.set("strictQuery", true);
     await mongoose.connect(
-      process.env.DBKEY ,
+      process.env.DBKEY||'mongodb://127.0.0.1:27017/formbuilder', 
       { useNewUrlParser: true}
     );
     console.log("Connected to MongoDb");

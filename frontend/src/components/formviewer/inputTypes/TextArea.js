@@ -1,10 +1,16 @@
-import React from 'react'
-import CustomTextEditor from '../CustomEditor'
+import React from "react";
+import CustomTextEditor from "../CustomEditor";
 
-const TextArea = ({ answer, handleAnswerChange,index }) => {
+const TextArea = ({ answer, handleAnswerChange, index, isRequired }) => {
   return (
-    <textarea placeholder='eg : some text' value={answer} onChange={(e) => handleAnswerChange(index, e.target.value)}   className='w-[80%] p-2 border-t-0 border-x-0  border-b'/>
-  )
-}
+    <textarea
+      placeholder="eg : some text"
+      value={answer}
+      onChange={(e) => handleAnswerChange(index, e.target.value)}
+      className="w-[80%] p-2 border-t-0 border-x-0  border-b"
+      required={isRequired}
+    />
+  );
+};
 
-export default TextArea
+export default TextArea;

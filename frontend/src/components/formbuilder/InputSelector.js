@@ -23,6 +23,7 @@ const InputSelector = ({
   handleOptionChange,
   activeDiv,
   handleToggleRequired,
+  isRequired
   
 }) => {
   const divRef = useRef(null);
@@ -78,7 +79,7 @@ const InputSelector = ({
         <div className="flex gap-x-2 items-center">
           <Switch
             handleToggleRequired={handleToggleRequired}
-            checked={currentSchema?.isRequired}
+            isRequired={isRequired}
             index={index}
             value={"Required"}
           />

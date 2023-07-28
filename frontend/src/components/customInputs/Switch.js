@@ -1,27 +1,21 @@
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
 
-const SwitchComponet = ({ value, handleToggleRequired, index,checked }) => {
-  const [enabled, setEnabled] = useState(false);
-  console.log(checked)
+const SwitchComponet = ({ value, handleToggleRequired, index, isRequired }) => {
   return (
-    <Switch
-      checked={checked}
-      onChange={() => {
+    <label className="flex items-center space-x-2">
+      <input
+        type="checkbox"
+        className="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-full checked:bg-blue-500 checked:border-transparent focus:outline-none"
+        checked={isRequired}
+        onChange={() => {
         handleToggleRequired(index);
-        setEnabled(!enabled);
+        // setEnabled(!enabled);
       }}
-      className={`${
-        enabled ? "bg-blue-600" : "bg-gray-400"
-      } relative inline-flex h-6 w-11 items-center rounded-full`}
-    >
-      <span className="sr-only">{value}</span>
-      <span
-        className={`${
-          enabled ? "translate-x-6" : "translate-x-1"
-        } inline-block h-4 w-4 transform rounded-full bg-white transition`}
       />
-    </Switch>
+      {/* <span className="text-gray-700">Toggle switch</span> */}
+    </label>
+    // </Switch>
   );
 };
 export default SwitchComponet;
