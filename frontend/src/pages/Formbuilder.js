@@ -192,7 +192,7 @@ const Formbuilder = () => {
         </div>
       </div>
       <div className="overflow-y-auto h-[calc(100vh-68px)]">
-        <div className="w-[80%]  max-w-2xl mt-2 mx-auto bg-white p-8 rounded-md flex flex-col items-center justify-center gap-2">
+        <div className="w-[95%]  max-w-2xl mt-2 mx-auto bg-white p-8 rounded-md flex flex-col items-center justify-center gap-2">
           <CustomTextEditor
             currentValue={formSchema.name}
             handleNameTitleChange={handleNameTitleChange}
