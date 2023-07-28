@@ -32,8 +32,8 @@ const Formbuilder = () => {
         placeholder: "",
         options: [
           {
-            value: "",
-            label: "",
+            value: "Option 1",
+            label: "Option 1",
           },
         ],
         isDeletable: false,
@@ -106,8 +106,8 @@ const Formbuilder = () => {
     const updatedOptions = [...formSchema.contents[contentIndex].options];
 
     updatedOptions.push({
-      value: "Option " + updatedOptions.length,
-      label: "Option " + updatedOptions.length,
+      value: "Option " + parseInt(updatedOptions.length+1),
+      label: "Option " + parseInt(updatedOptions.length+1),
     });
 
     updatedContent[contentIndex].options = updatedOptions;
@@ -136,7 +136,7 @@ const Formbuilder = () => {
       contents: updatedContent,
     });
   };
-  console.log(formSchema, activeDiv);
+  // console.log(formSchema, activeDiv);
 
   const handleSchemaSubmit = async () => {
     // e.preventDefault();
