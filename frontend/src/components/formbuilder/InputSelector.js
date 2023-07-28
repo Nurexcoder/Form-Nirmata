@@ -23,6 +23,7 @@ const InputSelector = ({
   handleOptionChange,
   activeDiv,
   handleToggleRequired,
+  
 }) => {
   const divRef = useRef(null);
 
@@ -46,7 +47,7 @@ const InputSelector = ({
             handleContentNameChange={handleContentNameChange}
             index={index}
             divRef={divRef}
-            currentValue={currentSchema}
+            currentValue={currentSchema.name}
             key={index}
           />
           <SelectBox

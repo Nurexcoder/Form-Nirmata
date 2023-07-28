@@ -6,43 +6,25 @@ import "react-quill/dist/quill.snow.css";
 import "../quill-custom.css";
 import CustomTextEditor from "../components/formviewer/CustomEditor";
 import InputSelector from "../components/formviewer/InputSelector";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import LoadingPage from "../components/customInputs/LoadingPage";
 const Formviewer = () => {
   const [activeDiv, setActiveDiv] = useState(-1);
-  const [formSchema, setFormSchema] = useState({
-    name: { value: "Untitled", placeholder: "" },
-    description: { value: "Description", placeholder: "" },
-    contents: [
-      {
-        name: "Questi",
-        type: "text",
-        placeholder: "",
-        options: [
-          {
-            value: "",
-            label: "",
-          },
-        ],
-
-        isDeletable: false,
-        answer: "",
-      },
-    ],
-  });
+  const [formSchema, setFormSchema] = useState();
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const navigate = useNavigate();
   const handleGetSchema = async () => {
     // e.preventDefault();
-    const res = await fetch(
-      "http://localhost:5000/api/formbuilder/"+id,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch("http://localhost:5000/api/formbuilder/" + id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     setFormSchema(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -70,7 +52,9 @@ const Formviewer = () => {
         };
       }),
     };
+    setLoading(true);
     console.log(data);
+
     const res = await fetch(
       "http://localhost:5000/api/response/" + formSchema._id,
       {
@@ -81,14 +65,16 @@ const Formviewer = () => {
         },
       }
     );
+    setLoading(false);
+    navigate("/success");
   };
-
+  if (!formSchema) return <LoadingPage />;
   return (
     <div className="h-[100vh] overflow-y-hidden w-full bg-slate-300 flex   flex-col">
       <div className="flex justify-between items-center p-4 bg-white shadow-2xl h-[68px]">
         <div className="flex items-center gap-1">
           <BiSpreadsheet color="#1a8cd8" fontSize={"2rem"} />
-          <h1 className="text-2xl font-bold text-gray-800 m-0">Formviewer</h1>
+          <h1 className="text-2xl font-bold text-gray-800 m-0">Form Nirmata</h1>
         </div>
       </div>
       <form

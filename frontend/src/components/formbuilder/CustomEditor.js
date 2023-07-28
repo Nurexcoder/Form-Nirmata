@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import useCaretPosition from "../customInputs/useCaretPath";
 const CustomTextEditor = ({
   variant,
   multiline,
@@ -18,7 +19,17 @@ const CustomTextEditor = ({
   const [isUnderline, setUnderline] = useState(false);
   const [fontColor, setFontColor] = useState("#000000");
   const [content, setContent] = useState("");
+  const contentRef = useRef(null);
 
+  useEffect(() => {
+    if(contentRef.current){
+      console.log(currentValue)
+      contentRef.current.innerHTML=currentValue
+       }
+    
+  }, [])
+  
+  // const caretPosition = useCaretPosition(contentRef);
   const handleBold = () => {
     setBold(!isBold);
     document.execCommand("bold", false, null);
@@ -41,11 +52,16 @@ const CustomTextEditor = ({
   };
 
   const handleEditorChange = (event) => {
+    
     setContent(event.target.innerHTML);
+    // if (contentRef.current) {
+    //   contentRef.current.focus();
+    // }
+
     if (name) {
-      handleNameTitleChange(event.target.innerHTML, name);
+      handleNameTitleChange(event.target.innerHTML, "name");
     } else if (description) {
-      handleNameTitleChange(event.target.innerHTML, description);
+      handleNameTitleChange(event.target.innerHTML, "description");
     } else if (index !== undefined) {
       if (optionIndex !== undefined) {
         handleOptionChange(
@@ -80,13 +96,12 @@ const CustomTextEditor = ({
           contentEditable={true}
           style={{ color: fontColor }}
           onInput={handleEditorChange}
-          dangerouslySetInnerHTML={{
-            __html: name?.value || description?.value || currentValue,
-          }}
+         
+          ref={contentRef}
         />
       ) : (
         <div
-          ref={divRef}
+          ref={contentRef}
           className={`editor ${
             variant === "main"
               ? "text-4xl font-medium"
@@ -94,14 +109,16 @@ const CustomTextEditor = ({
               ? "text-2xl"
               : ""
           }`}
+          id=""
+          key={name}
           onKeyDown={handleKeyDown}
           // contentEditable="true"
           contentEditable={true}
           style={{ color: fontColor }}
           onInput={handleEditorChange}
-          dangerouslySetInnerHTML={{
-            __html: name?.value || description?.value || "Question",
-          }}
+          // dangerouslySetInnerHTML={{
+          //   __html: content || name || description || currentValue,
+          // }}
         />
       )}
       <div className="toolbar h-0 w-0 scale-0  group-focus-within/editor:h-auto group-focus-within/editor:w-auto group-focus-within/editor:scale-100 ">

@@ -25,7 +25,10 @@ const TwelveHourTimeInput = ({
   };
   const handleHourChange = (event) => {
     const inputHours = event.target.value;
-    if (inputHours === "" || (inputHours >= 0 && inputHours <= 12)) {
+    if (
+      inputHours === "" ||
+      (inputHours >= 0 && inputHours <= 12 && inputHours.length <= 2)
+    ) {
       setHours(inputHours);
       setErrors({
         ...errors,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiSpreadsheet } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
@@ -6,7 +6,8 @@ import "react-quill/dist/quill.snow.css";
 import "../quill-custom.css";
 import CustomTextEditor from "../components/formbuilder/CustomEditor";
 import InputSelector from "../components/formbuilder/InputSelector";
-
+import { useNavigate, useParams } from "react-router-dom";
+import LoadingPage from "../components/customInputs/LoadingPage";
 const Formbuilder = () => {
   const {
     register,
@@ -15,10 +16,14 @@ const Formbuilder = () => {
     watch,
     formState: { errors },
   } = useForm();
+
+  const { id } = useParams();
+
   const [activeDiv, setActiveDiv] = useState(-1);
+  const navigate = useNavigate();
   const [formSchema, setFormSchema] = useState({
-    name: { value: "Untitled", placeholder: "" },
-    description: { value: "Description", placeholder: "" },
+    name: "Untitled",
+    description: "Description",
     contents: [
       {
         name: "Question",
@@ -26,18 +31,30 @@ const Formbuilder = () => {
         placeholder: "",
         options: [
           {
-            value: "Option 1",
-            label: "Option 1",
+            value: "",
+            label: "",
           },
         ],
-
         isDeletable: false,
-        required:false
+        answer: "",
       },
     ],
   });
+  const [loading, setLoading] = useState(true);
+  const getSchema = async () => {
+    const res = await fetch("http://localhost:5000/api/formbuilder/" + id);
+    const data = await res.json();
+    setFormSchema(data);
+    setLoading(false);
+  };
+  useEffect(() => {
+    if (id) {
+      getSchema();
+    }
+  }, []);
+
   const handleNameTitleChange = (innerHtlml, type) => {
-    setFormSchema({ ...formSchema, [type]: { value: innerHtlml } });
+    setFormSchema({ ...formSchema, [type]: innerHtlml });
   };
   const handleTypeChange = (value, index) => {
     console.log(value);
@@ -118,21 +135,35 @@ const Formbuilder = () => {
 
   const handleSchemaSubmit = async () => {
     // e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/formbuilder", {
-      method: "POST",
-      body: JSON.stringify(formSchema),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    if (!id) {
+      const res = await fetch("http://localhost:5000/api/formbuilder", {
+        method: "POST",
+        body: JSON.stringify(formSchema),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      alert("Form created successfully!!");
+    } else {
+      const res = await fetch("http://localhost:5000/api/formbuilder/" + id, {
+        method: "PUT",
+        body: JSON.stringify(formSchema),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      alert("Form updated successfully!!");
+    }
+    navigate('/list')
   };
+  if (id && loading) return <LoadingPage />;
 
   return (
     <div className="h-[100vh] overflow-y-hidden w-full bg-slate-300 flex   flex-col">
       <div className="flex justify-between items-center p-4 bg-white shadow-2xl h-[68px]">
         <div className="flex items-center gap-1">
           <BiSpreadsheet color="#1a8cd8" fontSize={"2rem"} />
-          <h1 className="text-2xl font-bold text-gray-800 m-0">Formbuilder</h1>
+          <h1 className="text-2xl font-bold text-gray-800 m-0">Form Nirmata</h1>
         </div>
         <div className=" flex items-center gap-2">
           <button
@@ -142,29 +173,34 @@ const Formbuilder = () => {
           >
             Save
           </button>
-          <button
-            type="button"
-            className="bg-green-600 px-5 py-1.5 rounded-full text-white hover:bg-green-400"
-          >
-            Preview
-          </button>
+          <a href={`/viewer/${id}`} target="_blank" className="">
+            <button
+              type="button"
+              className="bg-green-600 px-5 py-1.5 rounded-full text-white hover:bg-green-400"
+            >
+              Preview
+            </button>
+          </a>
         </div>
       </div>
       <div className="overflow-y-auto h-[calc(100vh-68px)]">
         <div className="w-[80%]  max-w-2xl mt-2 mx-auto bg-white p-8 rounded-md flex flex-col items-center justify-center gap-2">
           <CustomTextEditor
-            name={formSchema.name}
+            currentValue={formSchema.name}
             handleNameTitleChange={handleNameTitleChange}
             variant={"main"}
+            key={"name"}
+            name={true}
           />
           <CustomTextEditor
-            description={formSchema.description}
+            currentValue={formSchema.description}
             multiline={true}
             handleNameTitleChange={handleNameTitleChange}
+            description={true}
           />
         </div>
         <div className="w-[80%]  max-w-2xl  mx-auto my-3  flex flex-col gap-4">
-          {formSchema.contents.map((item, index) => {
+          {formSchema?.contents?.map((item, index) => {
             return (
               <InputSelector
                 key={index}
@@ -182,6 +218,7 @@ const Formbuilder = () => {
                 handleAddNewOption={handleAddNewOption}
                 handleOptionChange={handleOptionChange}
                 handleToggleRequired={handleToggleRequired}
+                name={item.name}
               />
             );
           })}

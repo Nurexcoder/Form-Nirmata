@@ -15,7 +15,6 @@ const Selector = ({
   handleOptionChange,
   ref
 }) => {
-  console.log(type);
   switch (type) {
     case "text":
       return <Text key={type}  />;

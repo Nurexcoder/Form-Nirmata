@@ -7,16 +7,25 @@ const Form = require("../models/formSchema");
 router.get("/", async (req, res) => {
   try {
     const forms = await Form.find();
-    res.json(forms);
+    const resForm = forms.map((form, index) => {
+      return {
+        name: form.name,
+        description: form.description,
+        slNo: index,
+        _id: form._id,
+      };
+    });
+    res.json(resForm);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
 });
 router.get("/:id", async (req, res) => {
   try {
-    const forms = await Form.findById(req.params.id );
+    const forms = await Form.findById(req.params.id);
     res.json(forms);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -26,13 +35,13 @@ router.post("/", async (req, res) => {
   try {
     const formData = req.body;
     const form = await Form.create({
-        name: formData.name.value,
-        description: formData.description.value,
-        contents: formData.contents,
+      name: formData.name,
+      description: formData.description,
+      contents: formData.contents,
     });
     res.json(form);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -40,9 +49,18 @@ router.post("/", async (req, res) => {
 // Update an existing form
 router.put("/:id", async (req, res) => {
   try {
-    const form = await Form.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const formData = req.body;
+    const form = await Form.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: formData.name,
+        description: formData.description,
+        contents: formData.contents,
+      },
+      {
+        new: true,
+      }
+    );
     res.json(form);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
@@ -60,4 +78,3 @@ router.delete("/:id", async (req, res) => {
 });
 
 module.exports = router;
-
