@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const TwelveHourTimeInput = ({ value, onChange }) => {
   const [hours, setHours] = useState('');
   const [minutes, setMinutes] = useState('');
-  const [ampm, setAMPM] = useState('');
+  const [ampm, setAMPM] = useState('AM');
 
   const handleTimeChange = () => {
     const formattedTime = `${hours}:${minutes} ${ampm}`;
