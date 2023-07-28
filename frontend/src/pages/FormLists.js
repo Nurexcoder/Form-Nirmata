@@ -5,13 +5,14 @@ import ActionButtons from "../components/customInputs/ActionButtons";
 import InnerHtmlDiv from "../components/customInputs/InnerHtmlDiv";
 import LoadingPage from "../components/customInputs/LoadingPage";
 import { useNavigate } from "react-router-dom";
+import { prodURL } from "../config";
 
 const FormLists = () => {
   const [loading, setLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const handleDeleteForm = async (id) => {
-    const res = await fetch("http://localhost:5000/api/formbuilder/" + id, {
+    const res = await fetch(prodURL + "/api/formbuilder/" + id, {
       method: "DELETE",
     });
     const data = await res.json();
@@ -50,7 +51,7 @@ const FormLists = () => {
   ]);
 
   const getFormData = async () => {
-    const res = await fetch("http://localhost:5000/api/formbuilder");
+    const res = await fetch(prodURL+"/api/formbuilder");
     const data = await res.json();
     setRowData(data);
     setLoading(false);
@@ -60,7 +61,7 @@ const FormLists = () => {
       getFormData();
     }
   }, [loading]);
-//   if (loading) return <LoadingPage />;
+  //   if (loading) return <LoadingPage />;
 
   return (
     <div className="w-full h-[100vh] overflow-hidden ">
@@ -71,7 +72,7 @@ const FormLists = () => {
         </div>
         <button
           type="button"
-          onClick={()=>navigate("/builder")}
+          onClick={() => navigate("/builder")}
           className="bg-green-600 uppercase px-5 py-1.5 rounded-full text-white hover:bg-green-400"
         >
           Create Form
@@ -80,7 +81,11 @@ const FormLists = () => {
       <div className="h-[calc(100vh-68px)] overflow-y-hidden w-full p-4 bg-white-100 flex   flex-col">
         <h1 className="text-grey text-2xl my-4 font-bold">Forms</h1>
         <div className="ag-theme-alpine rounded-md h-full ">
-          <AgGridReact rowData={rowData} columnDefs={columnDefs} rowHeight={45} />
+          <AgGridReact
+            rowData={rowData}
+            columnDefs={columnDefs}
+            rowHeight={45}
+          />
         </div>
       </div>
     </div>

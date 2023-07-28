@@ -8,6 +8,7 @@ import CustomTextEditor from "../components/formviewer/CustomEditor";
 import InputSelector from "../components/formviewer/InputSelector";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingPage from "../components/customInputs/LoadingPage";
+import { prodURL } from "../config";
 const Formviewer = () => {
   const [activeDiv, setActiveDiv] = useState(-1);
   const [formSchema, setFormSchema] = useState();
@@ -16,7 +17,7 @@ const Formviewer = () => {
   const navigate = useNavigate();
   const handleGetSchema = async () => {
     // e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/formbuilder/" + id, {
+    const res = await fetch(prodURL + "/api/formbuilder/" + id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -55,16 +56,13 @@ const Formviewer = () => {
     setLoading(true);
     console.log(data);
 
-    const res = await fetch(
-      "http://localhost:5000/api/response/" + formSchema._id,
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(prodURL + "/api/response/" + formSchema._id, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     setLoading(false);
     navigate("/success");
   };

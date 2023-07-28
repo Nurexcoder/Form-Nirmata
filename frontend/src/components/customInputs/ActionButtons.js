@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { isWebShareSupported } from "./utils";
+import { prodURL } from "../../config";
 
 export default (props) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default (props) => {
   };
 
   const handleShare = async () => {
-    const url = "http://localhost:3000/viewer/" + id;
+    const url = prodURL + "/viewer/" + id;
     console.log(url);
 
     try {
@@ -32,9 +33,9 @@ export default (props) => {
   };
   return (
     <div className="flex items-center gap-x-2  my-[2px]">
-        <button
+      <button
         className="bg-green-600 text-white px-4 py-1 leading-6  rounded-md"
-        onClick={()=>navigate('/responses/'+id)}
+        onClick={() => navigate("/responses/" + id)}
       >
         Responses
       </button>
@@ -50,7 +51,7 @@ export default (props) => {
       >
         Delete
       </button>
-      <a href={"http://localhost:3000/viewer/" + id} target="_blank">
+      <a href={prodURL + "/viewer/" + id} target="_blank">
         <button className="bg-green-600 text-white px-4 py-1 leading-6  rounded-md">
           Preview
         </button>
@@ -61,7 +62,6 @@ export default (props) => {
       >
         Share
       </button>
-      
     </div>
   );
 };

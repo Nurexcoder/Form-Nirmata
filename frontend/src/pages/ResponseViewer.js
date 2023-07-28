@@ -3,10 +3,11 @@ import DataTable from "../components/DataTable";
 import { useParams } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 import { BiSpreadsheet } from "react-icons/bi";
-import  InnerHtmlDiv  from "../components/customInputs/InnerHtmlDiv";
+import InnerHtmlDiv from "../components/customInputs/InnerHtmlDiv";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import CustomHeader from "../components/customInputs/CustomHeader";
+import { prodURL } from "../config";
 
 const ResponseViewer = () => {
   const [formName, setFormName] = useState("");
@@ -18,11 +19,11 @@ const ResponseViewer = () => {
   const { id } = useParams();
 
   const getResponses = async () => {
-    const res = await fetch("http://localhost:5000/api/response/" + id);
+    const res = await fetch(prodURL + "/api/response/" + id);
     const data = await res.json();
     if (data) {
       setFormName(data.name);
-      
+
       setColumnDefs(data?.columns);
       setRowData(data.rows);
     }
@@ -48,7 +49,11 @@ const ResponseViewer = () => {
           Responses from <InnerHtmlDiv value={formName} />
         </h1>
         <div className="ag-theme-alpine rounded-md h-full ">
-          <AgGridReact rowData={rowData} columnDefs={columnDefs}  components={components}></AgGridReact>
+          <AgGridReact
+            rowData={rowData}
+            columnDefs={columnDefs}
+            components={components}
+          ></AgGridReact>
         </div>
       </div>
     </div>

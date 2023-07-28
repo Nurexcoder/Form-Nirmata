@@ -8,6 +8,7 @@ import CustomTextEditor from "../components/formbuilder/CustomEditor";
 import InputSelector from "../components/formbuilder/InputSelector";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingPage from "../components/customInputs/LoadingPage";
+import { prodURL } from "../config";
 const Formbuilder = () => {
   const {
     register,
@@ -42,7 +43,7 @@ const Formbuilder = () => {
   });
   const [loading, setLoading] = useState(true);
   const getSchema = async () => {
-    const res = await fetch("http://localhost:5000/api/formbuilder/" + id);
+    const res = await fetch(prodURL + "/api/formbuilder/" + id);
     const data = await res.json();
     setFormSchema(data);
     setLoading(false);
@@ -136,7 +137,7 @@ const Formbuilder = () => {
   const handleSchemaSubmit = async () => {
     // e.preventDefault();
     if (!id) {
-      const res = await fetch("http://localhost:5000/api/formbuilder", {
+      const res = await fetch(prodURL + "/api/formbuilder", {
         method: "POST",
         body: JSON.stringify(formSchema),
         headers: {
@@ -145,7 +146,7 @@ const Formbuilder = () => {
       });
       alert("Form created successfully!!");
     } else {
-      const res = await fetch("http://localhost:5000/api/formbuilder/" + id, {
+      const res = await fetch(prodURL + "/api/formbuilder/" + id, {
         method: "PUT",
         body: JSON.stringify(formSchema),
         headers: {
@@ -154,7 +155,7 @@ const Formbuilder = () => {
       });
       alert("Form updated successfully!!");
     }
-    navigate('/list')
+    navigate("/list");
   };
   if (id && loading) return <LoadingPage />;
 
